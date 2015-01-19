@@ -1,0 +1,150 @@
+extends layout
+
+block scriptsh
+    link(href='css/bootstrap/dashboard.css', rel='stylesheet')
+    link(href='css/core/core.css', rel='stylesheet')
+    link(href='css/init/init.css', rel='stylesheet')
+
+block content
+    include common/nav
+    .container-fluid
+      .row
+        include common/menu
+        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+          .jumbotron.init
+            h1 A.I.S-&#x9879;&#x76EE;&#x6784;&#x5EFA;
+            p &#x63D0;&#x4F9B;&#x5E38;&#x7528;&#x7C7B;&#x5E93;&#x9009;&#x62E9;,&#x811A;&#x624B;&#x67B6;&#x751F;&#x6210;,&#x6A21;&#x677F;&#x4FDD;&#x5B58;&#x529F;&#x80FD;
+            form.clearfix.form-inline(role='form')
+              ul#myTab.nav.nav-tabs(role='tablist')
+                - var items = initData
+                each item,i in items
+                  if i == 0  
+                    li.active
+                      a(href='#'+item.type, role='tab', data-toggle='tab')= item.type
+                  else
+                    li
+                      a(href='#'+item.type, role='tab', data-toggle='tab')= item.type
+              #tab-content.tab-content
+                each item,i in items
+                  if item.type == 'meta'
+                    div(id=item.type).tab-pane.active
+                      each contentIndex,m in item.content
+                        .row.rowGroup
+                          .col-md-12.show-grid
+                            .input-group.add
+                              .input-group-addon
+                                span.glyphicon.glyphicon-plus-sign
+                              .input-group-btn
+                                button.btn.btn-default(type='button', tabindex='-1')=contentIndex.name
+                          each valIndex,n in contentIndex.val
+                            if  contentIndex.name == 'charset'
+                              if n == 0
+                                .col-md-6.show-grid
+                                  .form-group.selectGroup
+                                    .input-group
+                                      span.input-group-addon
+                                        input(type='checkbox', checked='checked',data-type=item.type)
+                                      .input-group-addon.rBorderNone=contentIndex.name
+                                      input.form-control(value=valIndex, data-toggle=    'dropdown',data-type="key" )
+                                      ul.dropdown-menu.charset-select(role='menu')
+                                        each liIndex in contentIndex.val
+                                          li
+                                            a(href='#')=liIndex
+
+                            if  contentIndex.name == 'http-equiv'
+                              if n == 0
+                                .col-md-6.show-grid
+                                  .form-group.selectGroup
+                                    .input-group  
+                                      span.input-group-addon
+                                        input(type='checkbox', checked='checked',data-type=item.type)
+                                      .input-group-addon.rBorderNone=contentIndex.name
+                                      input.form-control(value=valIndex, data-toggle=      'dropdown',data-type='key'  )
+                                      ul.dropdown-menu.http-equiv-select(role='menu')
+                                        each liIndex in contentIndex.val
+                                          li
+                                            a(href='#')=liIndex
+                                    &nbsp;
+                                    .input-group        
+                                      .input-group-addon.rBorderNone content
+                                      input.form-control(value='',data-type='val')
+                            if  contentIndex.name == 'name'
+                              if n == 0 || n == 1 || n == 3
+                                .col-md-6.show-grid
+                                  .form-group.selectGroup
+                                    .input-group
+                                      span.input-group-addon
+                                        input(type='checkbox', checked='checked',data-type=item.type)
+                                      .input-group-addon.rBorderNone=contentIndex.name
+                                      input.form-control(value=valIndex, data-toggle=    'dropdown' ,data-type='key' )
+                                      ul.dropdown-menu.name-select(role='menu')
+                                        each liIndex in contentIndex.val
+                                          li
+                                            a(href='#')=liIndex
+                                    &nbsp;
+                                    .input-group        
+                                      .input-group-addon.rBorderNone content
+                                      input.form-control(value='',data-type='val')
+                  if item.type == 'css'
+                    div(id=item.type).tab-pane
+                        .row.rowGroup
+                          .col-md-12.show-grid
+                            .input-group.add
+                              .input-group-addon
+                                span.glyphicon.glyphicon-plus-sign
+                              .input-group-btn
+                                button.btn.btn-default(type='button', tabindex='-1')=item.type
+                          .col-md-6.show-grid
+                            .form-group
+                              .input-group.selectGroup
+                                span.input-group-addon
+                                  input(type='checkbox',data-type=item.type)
+                                .input-group-addon.rBorderNone css
+                                input.form-control.rBorderNone(value='', data-toggle='dropdown',data-type='val',disabled)
+                                ul.dropdown-menu.css-select(role='menu')
+                                  each liIndex in item.content
+                                    li
+                                      a(href='#')=liIndex
+                                span.input-group-addon
+                                  label
+                                    input(type='radio',name=item.type+"0",value="1",disabled)
+                                    |                             &#x7EBF;&#x4E0A;
+                                span.input-group-addon
+                                  label
+                                    input(type='radio',name=item.type+"0",value="0",disabled)
+                                    |                             &#x7EBF;&#x4E0B;
+                  if item.type == 'javascript' 
+                    div(id=item.type).tab-pane
+                      .row.rowGroup
+                        .col-md-12.show-grid
+                          .input-group.add
+                            .input-group-addon
+                              span.glyphicon.glyphicon-plus-sign
+                            .input-group-btn
+                              button.btn.btn-default(type='button', tabindex='-1') javascript
+                        .col-md-6.show-grid
+                          .form-group
+                            .input-group.selectGroup
+                              span.input-group-addon
+                                input(type='checkbox',data-type=item.type)
+                              .input-group-addon.rBorderNone javascript
+                              input.form-control.rBorderNone(value='', data-toggle='dropdown',data-type='key',disabled)
+                              ul.dropdown-menu.js-select(role='menu')
+                                each liIndex in item.content
+                                  li
+                                    a(href='#')=liIndex
+                              span.input-group-addon
+                                label
+                                  input(type='radio',name=item.type+"0",value="1",disabled)
+                                  |                             &#x7EBF;&#x4E0A;
+                              span.input-group-addon
+                                label
+                                  input(type='radio',name=item.type+"0",value="0",disabled)
+                                  |                             &#x7EBF;&#x4E0B;
+              .row.rowGroup
+                .form-group.col-sm-12
+                  button.btn.btn-primary(type='button',id='btn-create') &#x751F;&#x6210;&#x6A21;&#x677F;
+// /container
+block scriptsf
+  script(src='/javascripts/init.js')
+

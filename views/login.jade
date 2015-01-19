@@ -1,0 +1,33 @@
+extends layout
+
+block scriptsh
+	link(rel='stylesheet', href='/css/login/signin.css')
+
+block content
+	.container
+		form.form-signin(role='form',action='/',method='post')
+			h2.text-center.form-signin-heading 请登录
+			if locals.messages
+				each messages in locals.messages
+					if messages.type == 'error'
+						p.text-center.error #{messages.string}
+				#{locals.removeMessages()}
+			input.form-control(name='email',type='email', placeholder='邮箱地址', required='', autofocus='')
+			input.form-control(name='password',type='password', placeholder='密码', required='')
+			.checkbox
+				label
+					input(type='checkbox', value='remember-me')
+					| 记住我
+			button#btnLogin.btn.btn-lg.btn-primary.btn-block(type='submit') 登录
+	// /container
+	blockquote.text-center
+		h2 A.I.S
+		p 全端集成解决方案
+		p 自动化集成解决方案
+		p 爱JS
+		footer 移动事业线 前端技术组
+
+block scriptsf
+	script(src="/javascripts/login.js")
+	script(src="/assets/js/ie-emulation-modes-warning.js")
+	script(src="/assets/js/ie10-viewport-bug-workaround.js")

@@ -1,0 +1,97 @@
+extends layout
+
+block scriptsh
+	link(rel='stylesheet', href='/css/bootstrap/dashboard.css')
+	link(rel='stylesheet', href='/css/core/core.css')
+	script(src="/javascripts/ais/ais.date.js")
+
+block content
+	include common/nav
+	.container-fluid
+		.row
+			include common/menu
+			.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+				h2.sub-header
+						| 用户管理
+						a#btnAddUser.btn.btn-default.pull-right(href='#') 添加用户
+					.table-responsive
+						table.table.table-striped
+							thead
+								tr
+									th 编号
+									th 账号
+									th 用户姓名
+									th 注册时间
+									th 操作
+							tbody#userContainer
+						ul.pagination.pull-right
+							li.disabled
+								a(href='#') «
+							li.active
+								a(href='#')
+									| 1 
+									span.sr-only (current)
+							li
+								a(href='#')
+									| 1 
+									span.sr-only (current)
+							li
+								a(href='#')
+									| 2 
+									span.sr-only (current)
+							li
+								a(href='#')
+									| 3 
+									span.sr-only (current)
+							li
+								a(href='#')
+									| 4 
+									span.sr-only (current)
+							li
+								a(href='#') »
+		// Modal
+		#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+							span.sr-only Close
+						h4#myModalLabel.modal-title 添加新用户
+					.modal-body
+						form.form-horizontal(role='form')
+							.form-group
+								label.col-sm-2.control-label(for='inputName') 姓名
+								.col-sm-10
+									input#inputName.form-control(type='name', placeholder='请输入姓名')
+							.form-group
+								label.col-sm-2.control-label(for='inputEmail3') 账号
+								.col-sm-10
+									input#inputEmail3.form-control(type='email', placeholder='账号只能为邮箱')
+							.form-group
+								label.col-sm-2.control-label(for='inputPassword3') 密码
+								.col-sm-10
+									input#inputPassword3.form-control(type='password', placeholder='请输入密码')
+							.form-group
+								label.col-sm-2.control-label(for='inputPassword3') 密码确认
+								.col-sm-10
+									input#inputrPassword3.form-control(type='password', placeholder='请输入密码')
+							input#inputId(type='hidden',name='_id',value='')
+					.modal-footer
+						button.btn.btn-default(type='button', data-dismiss='modal') 取消
+						button#btn-saveUser.btn.btn-primary(type='button') 保存
+		script#userItemTpl(type='template')
+			|- for( var item in data ){
+			|	tr
+			|		td \#{data[item]['_id']}
+			|		td \#{data[item]['email']}
+			|		td \#{data[item]['name']}
+			|		td \#{new Date(data[item]['regDate']).format("yyyy-MM-dd hh:mm:ss")}
+			|		td
+			|			a.btn.btn-default(href="javascript:void(0);",userId="\#{data[item]['_id']}",item="\#{JSON.stringify(data[item])}",type="edit") 修改
+			|			a.btn.btn-default(href="javascript:void(0);",userId="\#{data[item]['_id']}",item="\#{JSON.stringify(data[item])}",type="delete") 删除
+			|- }
+	// /container
+	block scriptsf
+		script(src="/javascripts/user.js")
+		script(src="/javascripts/template/jade.js")
